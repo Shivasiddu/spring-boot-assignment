@@ -8,6 +8,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.zensar.springbootdemo.dto.StudentDto;
@@ -35,7 +37,7 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
-	public List<StudentDto> getStudents(int pageNumber, int pageSize) {
+	public List<StudentDto> getStudents(int pageNumber, int pageSize, String sortBy, Direction dir) {
 		// List<Student>listOfStudents=studentRepository.findAll();
 		List<StudentDto> listOfStudentDto = new ArrayList<StudentDto>();
 		// for(Student student:listOfStudents) {
@@ -43,7 +45,12 @@ public class StudentServiceImpl implements StudentService {
 		// listOfStudentDto.add(modelMapper.map(student, StudentDto.class));
 		// }
 
-		Page<Student> findAll = studentRepository.findAll(PageRequest.of(pageNumber, pageSize));
+		// Page<Student>findAll=studentRepository.findAll(PageRequest.of(pageNumber,pageSize,Sort.by(Direction.DESC,"studentName")));
+		// Page<Student>findAll=studentRepository.findAll(PageRequest.of(pageNumber,pageSize,Direction.DESC,"studentName"));
+		// Page<Student> findAll = studentRepository.findAll(PageRequest.of(pageNumber,
+		// pageSize));
+		Page<Student> findAll = studentRepository.findAll(PageRequest.of(pageNumber, pageSize, dir, sortBy));
+
 		List<Student> content = findAll.getContent();
 		for (Student student : content) {
 			// listOfStudentDto.add(mapToDto(student));

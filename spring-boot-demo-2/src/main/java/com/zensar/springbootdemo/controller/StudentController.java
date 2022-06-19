@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -33,25 +34,28 @@ public class StudentController {
 	public StudentController() {
 	}
 
-	// http://localhost:1111/students/1001 GET
+	// http://localhost:6060/students/1001 GET
 	// @RequestMapping(value = "/students/{studentId}",method=RequestMethod.GET)
 	@GetMapping(value = "/students/{studentId}")
 	public ResponseEntity<StudentDto> getStudent(@PathVariable("studentId") int studentId) {
 		return new ResponseEntity<StudentDto>(studentService.getStudent(studentId), HttpStatus.OK);
 	}
 
-	// http://localhost:1111/students
+	// http://localhost:6060/students
 	// @RequestMapping(value = { "/students", "/listOfStudents"
 	// },method=RequestMethod.GET)
 	@GetMapping(value = { "/students", "/listOfStudents" })
 	public ResponseEntity<List<StudentDto>> getStudents(
 			@RequestParam(value = "pageNumber", required = false, defaultValue = "0") int pageNumber,
-			@RequestParam(value = "pageSize", required = false, defaultValue = "5") int pageSize) {
-		return new ResponseEntity<List<StudentDto>>(studentService.getStudents(pageNumber, pageSize), HttpStatus.OK);
-		// return studentService.getStudents();
+			@RequestParam(value = "pageSize", required = false, defaultValue = "5") int pageSize,
+			@RequestParam(value = "sortBy", required = false, defaultValue = "studentName") String sortBy,
+			@RequestParam(value = "dir", required = false, defaultValue = "ASC") Direction dir) {
+
+		return new ResponseEntity<List<StudentDto>>(studentService.getStudents(pageNumber, pageSize, sortBy, dir),
+				HttpStatus.OK);
 	}
 
-	// http://localhost:1111/students-- POST
+	// http://localhost:6060/students-- POST
 	// @RequestMapping(value = "/students",method=RequestMethod.POST)
 	@PostMapping(value = "/students")
 	public ResponseEntity<StudentDto> insertStudent(@RequestBody StudentDto studentDto) {
@@ -66,7 +70,7 @@ public class StudentController {
 		// return studentService.updateStudent(studentId, studentDto);
 	}
 
-	// http://localhost:1111/students -> Delete
+	// http://localhost:6060/students -> Delete
 	// @RequestMapping(value="/students/{studentId}",method=RequestMethod.DELETE)
 	@DeleteMapping("/students/{studentId}")
 	public ResponseEntity<String> deleteStudent(@PathVariable("studentId") int studentId) {
@@ -74,7 +78,7 @@ public class StudentController {
 		return new ResponseEntity<String>("Student deleted successfully", HttpStatus.OK);
 	}
 
-	// http://localhost:1111/student-api/students/studentName/rama
+	// http://localhost:6060/student-api/students/studentName/rama
 	@GetMapping("/students/studentName/{studentName}")
 	public ResponseEntity<List<StudentDto>> getByStudentName(@PathVariable("studentName") String studentName) {
 		return new ResponseEntity<List<StudentDto>>(studentService.getByStudentName(studentName), HttpStatus.OK);
