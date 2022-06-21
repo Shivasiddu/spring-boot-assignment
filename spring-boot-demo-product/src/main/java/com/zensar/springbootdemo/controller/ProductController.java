@@ -35,7 +35,7 @@ public class ProductController {
 		return new ResponseEntity<ProductDto>(productService.getProduct(productId), HttpStatus.OK);
 	}
 
-//http://localhost:4747/product-api/products?pageNumber=0&pageSize=5&sortBy=productName&dir=DESC
+//http://localhost:6060/product-api/products?pageNumber=0&pageSize=5&sortBy=productName&dir=DESC
 // @RequestMapping("/products")
 	@GetMapping(value = { "/products", "/listOfProducts" })
 	public ResponseEntity<List<ProductDto>> getAllProducts(
