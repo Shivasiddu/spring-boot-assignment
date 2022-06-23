@@ -17,6 +17,7 @@ public class SpringBootDemo2Application extends SpringBootServletInitializer {
 		System.out.println("shiva");
 		SpringApplication.run(SpringBootDemo2Application.class, args);
 		System.out.println("siddu");
+		System.out.println("Student");
 	}
 
 	@Bean
