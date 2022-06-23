@@ -24,7 +24,7 @@ public class SpringBootCouponApplication {
 		System.out.println("shiva");
 		SpringApplication.run(SpringBootCouponApplication.class, args);
 		System.out.println("siddu");
-		System.out.println("let's start");
+		System.out.println("COUPON");
 	}
 
 	@Bean
