@@ -2,15 +2,21 @@ package com.zensar.springbootdemo.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 @Entity
-//@NamedQueries(value= {
-// @NamedQuery(name="student.test1",query="from student s where s.studentName=?1
-// and s.studentAge=?2")})
-//@NamedQuery(name="student.test",query="select * from student s where student_name=?1", Student.class)
-
+/*
+ * @NamedQueries(value = {
+ * 
+ * @NamedQuery(name = "Student.test1", query =
+ * "From Student s where s.studentName=?1 And s.studentAge=?2") })
+ * 
+ * @NamedNativeQuery(name = "Student.test", query =
+ * "select * from student s where s.student_name=?1",resultClass =
+ * Student.class)
+ */
 public class Student {
 	@Id
 	private int studentId;

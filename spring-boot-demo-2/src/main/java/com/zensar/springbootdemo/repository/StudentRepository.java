@@ -12,13 +12,21 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
 
 	List<Student> findByStudentName(String studentName);
 
+	@Query(value = "from Student s where s.studentName=:name")
+	List<Student> test(@Param("name") String studentName);
+
 	List<Student> findByStudentNameAndStudentAge(String studentName, int age);
+
+	@Query(value = " from Student s where s.studentName=:name And s.studentAge=:age")
+
+	List<Student> test1(@Param("name") String studentName, @Param("age") int age);
 
 	List<Student> findByStudentNameOrStudentAge(String studentName, int age);
 
-	@Query(value = "select * from Student where student_name=name", nativeQuery = true)
-	List<Student> test(@Param("name") String studentName);
+	List<Student> findByStudentNameEndsWith(String suffix);
 
-	@Query("from Student s where s.studentName=name and s.studentAge=age")
-	List<Student> test1(@Param("name") String studentName, int age);
+	List<Student> findByStudentNameOrderByStudentIdDesc(String studentName);
+
+	List<Student> findByStudentNameLike(String pattern);
+
 }

@@ -1,20 +1,22 @@
 package com.zensar.springbootdemo.service;
 
-import java.awt.print.Pageable;
+
 import java.util.ArrayList;
 import java.util.List;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.zensar.springbootdemo.dto.StudentDto;
 import com.zensar.springbootdemo.entity.Student;
+import com.zensar.springbootdemo.exceptions.NoSuchStudentExistsException;
+import com.zensar.springbootdemo.exceptions.StudentAlreadyExistsException;
 import com.zensar.springbootdemo.repository.StudentRepository;
+
+import org.springframework.data.domain.Sort.Direction;   // important one
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -25,35 +27,27 @@ public class StudentServiceImpl implements StudentService {
 	private ModelMapper modelMapper;
 
 	public StudentServiceImpl() {
+
 	}
 
 	@Override
 	public StudentDto getStudent(int studentId) {
-		Student student = studentRepository.findById(studentId).get();
-		// StudentDto dto=mapToDto(student);
-		return modelMapper.map(student, StudentDto.class);
-		// return dto;
-
+		Student getStudent = studentRepository.findById(studentId).orElse(null);
+		if(getStudent == null) {
+			throw new NoSuchStudentExistsException("Student doesn't exists");
+		}
+		// StudentDto dto = mapToDto(getStudent);
+		return modelMapper.map(getStudent, StudentDto.class);
 	}
 
 	@Override
-	public List<StudentDto> getStudents(int pageNumber, int pageSize, String sortBy, Direction dir) {
-		// List<Student>listOfStudents=studentRepository.findAll();
-		List<StudentDto> listOfStudentDto = new ArrayList<StudentDto>();
-		// for(Student student:listOfStudents) {
-		// listOfStudentDto.add(mapToDto(student));
-		// listOfStudentDto.add(modelMapper.map(student, StudentDto.class));
-		// }
-
-		// Page<Student>findAll=studentRepository.findAll(PageRequest.of(pageNumber,pageSize,Sort.by(Direction.DESC,"studentName")));
-		// Page<Student>findAll=studentRepository.findAll(PageRequest.of(pageNumber,pageSize,Direction.DESC,"studentName"));
-		// Page<Student> findAll = studentRepository.findAll(PageRequest.of(pageNumber,
-		// pageSize));
-		Page<Student> findAll = studentRepository.findAll(PageRequest.of(pageNumber, pageSize, dir, sortBy));
-
+	public List<StudentDto> getStudents(int pageNumber, int pageSize,String sortBy,Direction dir) {
+		// List<Student> listOfStudents = studentRepository.findAll();
+		//Page<Student> findAll = studentRepository.findAll(PageRequest.of(pageNumber, pageSize,Sort.by(Direction.DESC,"studentName")));
+		Page<Student> findAll = studentRepository.findAll(PageRequest.of(pageNumber, pageSize,dir,sortBy));
 		List<Student> content = findAll.getContent();
+		List<StudentDto> listOfStudentDto = new ArrayList<StudentDto>();
 		for (Student student : content) {
-			// listOfStudentDto.add(mapToDto(student));
 			listOfStudentDto.add(modelMapper.map(student, StudentDto.class));
 		}
 		return listOfStudentDto;
@@ -63,70 +57,113 @@ public class StudentServiceImpl implements StudentService {
 	public StudentDto insertStudent(StudentDto studentDto) {
 		// Student student = mapToEntity(studentDto);
 		Student student = modelMapper.map(studentDto, Student.class);
-		Student insertedStudent = studentRepository.save(student);
-		// StudentDto mapToDto= mapToDto(insertedStudent);
-		return modelMapper.map(insertedStudent, StudentDto.class);
-		// return mapToDto;
+		Student getStudent = studentRepository.findById(student.getStudentId()).get();
+		if(getStudent == null) {
+			Student insertedStudent = studentRepository.save(student);
+			// StudentDto maptoDto = mapToDto(insertedStudent);
+			// return maptoDto;
+			return modelMapper.map(insertedStudent, StudentDto.class);
+		}
+		else 
+			throw new StudentAlreadyExistsException("Student already exists");
+		
+
+	}
+
+	@Override
+	public void deleteStudent(int studentId) {
+		Student getStudent = studentRepository.findById(studentId).orElse(null);
+		if(getStudent == null) {
+			throw new NoSuchStudentExistsException("Student doesnt exists");
+		}
+		studentRepository.deleteById(studentId);
 
 	}
 
 	@Override
 	public StudentDto updateStudent(int studentId, StudentDto studentDto) {
 		// Student student = mapToEntity(studentDto);
+		Student getStudent = studentRepository.findById(studentId).orElse(null);
+		if(getStudent == null) {
+			throw new NoSuchStudentExistsException("Student doesnt exists");
+		}
 		Student student = modelMapper.map(studentDto, Student.class);
-		Student updateStudent = studentRepository.save(student);
-		// studentRepository.save(student);
-		return modelMapper.map(updateStudent, StudentDto.class);
+		Student updatedStudent = studentRepository.save(student);
+		// StudentDto dto = mapToDto(updatedStudent);
+		// return dto;
+		return modelMapper.map(updatedStudent, StudentDto.class);
 	}
 
-	@Override
-	public void deleteStudent(int studentId) {
-		studentRepository.deleteById(studentId);
-	}
-
-	@Override
 	public List<StudentDto> getByStudentName(String studentName) {
-		List<StudentDto> studentDto = new ArrayList();
+		// return studentRepository.findByStudentName(studentName);
+		// return studentRepository.test(studentName);
+		List<StudentDto> listOfStudentDto = new ArrayList<StudentDto>();
 		List<Student> students = studentRepository.test(studentName);
-		for (Student student : students)
-			studentDto.add(modelMapper.map(student, StudentDto.class));
-		return studentDto;
+		for (Student student : students) {
+			listOfStudentDto.add(modelMapper.map(student, StudentDto.class));
+		}
+		return listOfStudentDto;
 	}
-
-	/*
-	 * @Override public List<Student> findByStudentNameAndStudentAge(String
-	 * studentName, int age) { return
-	 * studentRepository.findByStudentNameAndStudentAge(studentName, age); }
-	 */
-
-	/*
-	 * @Override public List<Student> findByStudentNameOrStudentAge(String
-	 * studentName, int age) { return
-	 * studentRepository.findByStudentNameOrStudentAge(studentName, age); }
-	 */
 
 	@Override
-	public List<StudentDto> findByStudentNameAndStudentAge(String studentName, int age) {
-		List<StudentDto> studentDtos = new ArrayList();
+	public List<StudentDto> getByStudentNameAndStudentAge(String studentName, int age) {
+//		return studentRepository.findByStudentNameAndStudentAge(studentName,age); 		
+//		return studentRepository.test1(studentName, age); 
+		List<StudentDto> listOfStudentDto = new ArrayList<StudentDto>();
 		List<Student> students = studentRepository.test1(studentName, age);
-		for (Student student : students)
-			studentDtos.add(modelMapper.map(student, StudentDto.class));
-		return studentDtos;
+		for (Student student : students) {
+			listOfStudentDto.add(modelMapper.map(student, StudentDto.class));
+		}
+		return listOfStudentDto;
+	}
+
+	@Override
+	public List<StudentDto> getByStudentNameOrStudentAge(String studentName, int age) {
+		// TODO Auto-generated method stub
+		// return studentRepository.findByStudentNameOrStudentAge(studentName, age);
+		List<StudentDto> listOfStudentDto = new ArrayList<StudentDto>();
+		List<Student> students = studentRepository.findByStudentNameOrStudentAge(studentName, age);
+		for (Student student : students) {
+			listOfStudentDto.add(modelMapper.map(student, StudentDto.class));
+		}
+		return listOfStudentDto;
+	}
+
+	@Override
+	public List<StudentDto> getByStudentNameEndsWith(String suffix) {
+		// return studentRepository.findByStudentNameEndsWith(suffix);
+		List<StudentDto> listOfStudentDto = new ArrayList<StudentDto>();
+		List<Student> students = studentRepository.findByStudentNameEndsWith(suffix);
+		for (Student student : students) {
+			listOfStudentDto.add(modelMapper.map(student, StudentDto.class));
+		}
+		return listOfStudentDto;
+	}
+
+	@Override
+	public List<StudentDto> findByStudentNameOrderBy(String studentName) {
+
+		// return studentRepository.findByStudentNameOrderByStudentIdDesc(studentName);
+		List<StudentDto> listOfStudentDto = new ArrayList<StudentDto>();
+		List<Student> students = studentRepository.findByStudentNameOrderByStudentIdDesc(studentName);
+		for (Student student : students) {
+			listOfStudentDto.add(modelMapper.map(student, StudentDto.class));
+		}
+		return listOfStudentDto;
 	}
 
 	/*
-	 * public StudentDto mapToDto(Student student) { StudentDto dto=new
+	 * public Student mapToEntity(StudentDto studentDto) { Student student = new
+	 * Student(); student.setStudentId(studentDto.getStudentId());
+	 * student.setStudentName(studentDto.getStudentName());
+	 * student.setStudentAge(studentDto.getStudentAge()); return student; }
+	 * 
+	 * public StudentDto mapToDto(Student student) { StudentDto dto = new
 	 * StudentDto(); dto.setStudentId(student.getStudentId());
 	 * dto.setStudentName(student.getStudentName());
 	 * dto.setStudentAge(student.getStudentAge()); return dto;
 	 * 
 	 * }
-	 * 
-	 * 
-	 * public Student mapToEntity(StudentDto studentDto) { Student student=new
-	 * Student(); student.setStudentId(studentDto.getStudentId());
-	 * student.setStudentName(studentDto.getStudentName());
-	 * student.setStudentAge(studentDto.getStudentAge()); return student; }
 	 */
 
 }
