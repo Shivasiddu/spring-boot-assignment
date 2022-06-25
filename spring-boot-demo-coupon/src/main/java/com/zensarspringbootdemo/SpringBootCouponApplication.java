@@ -27,9 +27,4 @@ public class SpringBootCouponApplication {
 		System.out.println("COUPON");
 	}
 
-	@Bean
-	public ModelMapper getModelMapper() {
-		return new ModelMapper();
-	}
-
 }

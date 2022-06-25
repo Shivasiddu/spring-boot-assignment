@@ -1,43 +1,36 @@
 package com.zensar.entity;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedNativeQueries;
 import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 @Entity
-@NamedQueries(value = { @NamedQuery(name = "Coupon.com", query = "from Coupon c where c.couponCode=?1"),
-		@NamedQuery(name = "Coupon.com1", query = "from Coupon c where c.couponCode=?1 and c.couponId=?2") })
-//@NamedQuery(name="Coupon.com" ,query="from Coupon c where c.couponCode=?1")
-//@NamedQuery(name="Coupon.com1",query="from Coupon c where c.couponCode=?1 and c.couponId=?2")
-@NamedNativeQuery(name = "Coupon.com2", query = "select * from Coupon c where c.coupon_code=?1 and c.coupon_id=?2 ", resultClass = Coupon.class)
+//@NamedQueries(value = { @NamedQuery(name = "Coupon.test", query = "from Coupon c where c.couponCode=?1"),
+//		@NamedQuery(name = "Coupon.test1", query = "from Coupon c where c.couponCode=?1 and c.couponExpDate=?2") })
+//
+//@NamedNativeQueries(value = {
+// @NamedNativeQuery(name = "Coupon.test", query = "select * from coupon where
+// coupon_code=?1", resultClass = Coupon.class),
+// @NamedNativeQuery(name = "Coupon.test1", query = "select * from coupon where
+// coupon_code=?1 and coupon_exp_date=?2", resultClass = Coupon.class) })
 public class Coupon {
 	@Id
 	private int couponId;
 	private String couponCode;
-	private String expDate;
-	private String couponName;
+	private String couponExpDate;
 
 	public Coupon() {
 		super();
 	}
 
-	public Coupon(int couponId, String couponCode, String expDate, String couponName) {
+	public Coupon(int couponId, String couponCode, String couponExpDate) {
 		super();
 		this.couponId = couponId;
 		this.couponCode = couponCode;
-		this.expDate = expDate;
-		this.couponName = couponName;
-	}
-
-	public Coupon(int couponId, String couponCode, String expDate) {
-		super();
-		this.couponId = couponId;
-		this.couponCode = couponCode;
-		this.expDate = expDate;
+		this.couponExpDate = couponExpDate;
 	}
 
 	public int getCouponId() {
@@ -56,26 +49,17 @@ public class Coupon {
 		this.couponCode = couponCode;
 	}
 
-	public String getexpDate() {
-		return expDate;
+	public String getCouponExpDate() {
+		return couponExpDate;
 	}
 
-	public void setexpDate(String expDate) {
-		this.expDate = expDate;
-	}
-
-	public String getCouponName() {
-		return couponName;
-	}
-
-	public void setCouponName(String couponName) {
-		this.couponName = couponName;
+	public void setCouponExpDate(String couponExpDate) {
+		this.couponExpDate = couponExpDate;
 	}
 
 	@Override
 	public String toString() {
-		return "Coupon [couponId=" + couponId + ", couponCode=" + couponCode + ", expDate=" + expDate + ", couponName="
-				+ couponName + "]";
+		return "Coupon [couponId=" + couponId + ", couponCode=" + couponCode + ", couponExpDate=" + couponExpDate + "]";
 	}
 
 }
