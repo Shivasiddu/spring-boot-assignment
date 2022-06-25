@@ -17,9 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.zensar.springbootdemo.service.ProductServiceImpl;
-import com.zensar.springbootdemo.dto.*;
-import com.zensar.springbootdemo.entity.*;
+import com.zensar.springbootdemo.dto.ProductDto;
 import com.zensar.springbootdemo.service.ProductService;
 
 @RestController
@@ -35,7 +33,7 @@ public class ProductController {
 		return new ResponseEntity<ProductDto>(productService.getProduct(productId), HttpStatus.OK);
 	}
 
-//http://localhost:6060/product-api/products?pageNumber=0&pageSize=5&sortBy=productName&dir=DESC
+//http://localhost:1111/product-api/products?pageNumber=0&pageSize=5&sortBy=productName&dir=DESC
 // @RequestMapping("/products")
 	@GetMapping(value = { "/products", "/listOfProducts" })
 	public ResponseEntity<List<ProductDto>> getAllProducts(
