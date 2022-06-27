@@ -1,18 +1,18 @@
 server:
-  port: 1111
+  port: 5050
 spring:
   datasource:
     password: Temp1234
-    url: jdbc:mysql://localhost:3306/mydb
+    url: jdbc:mysql://localhost:3306/javabatch
     username: root
   jpa:
     hibernate:
       ddl-auto: create
 
   application:
-    name: product-service
+    name: coupon-service
 
 eureka:
   client:
-    register-with-eureka: false
-    fetch-registry: true
+    register-with-eureka: true
+    fetch-registry: false
