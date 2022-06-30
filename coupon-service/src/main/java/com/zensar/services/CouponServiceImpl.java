@@ -27,13 +27,14 @@ public class CouponServiceImpl implements CouponService {
 
 	@Override
 	public List<Coupon> getAllCoupons() {
-		return couponRepository.findAll();
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public void deleteCoupon(String couponCode) {
 		// TODO Auto-generated method stub
-		couponRepository.deleteByCouponCode(couponCode);
+
 	}
 
 }

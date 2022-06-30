@@ -25,27 +25,25 @@ public class CouponControllers {
 	public Coupon createCoupon(@RequestBody Coupon coupon) {
 		return couponService.createCoupon(coupon);
 	}
-	
+
 	@GetMapping("/getCoupons")
 	public List<Coupon> getAllCoupons() {
 		System.out.println("coupons");
 		return couponService.getAllCoupons();
-		
+
 	}
 
-	// http://localhost:8080/coupons/MAX50 -> GET
+	// http://localhost:8084/coupons/MAX50 -> GET
 	@GetMapping("/{couponCode}")
 	public Coupon getCoupon(@PathVariable("couponCode") String couponCode) {
-		System.out.println("Hello");
+		System.out.println(" Instance 2");
 		return couponService.getCoupon(couponCode);
 	}
-	
-	@DeleteMapping("/{couponCode}")
+
+	@DeleteMapping("/delete/{couponCode}")
 	public void delete(@PathVariable("couponCode") String couponCode) {
 		couponService.deleteCoupon(couponCode);
-		
-		
+
 	}
-	
 
 }

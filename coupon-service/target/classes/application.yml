@@ -1,18 +1,45 @@
-server:
-  port: 5050
 spring:
   datasource:
-    password: Temp1234
     url: jdbc:mysql://localhost:3306/javabatch
     username: root
+    password: Temp1234
   jpa:
-    hibernate:
-      ddl-auto: create
-
+   hibernate:
+    ddl-auto: update
   application:
     name: coupon-service
+  config:
+    import:
+    - optional:configserver:http://localhost:7777/
+    
 
+server:
+  port: 5051
+  
+  
 eureka:
   client:
     register-with-eureka: true
     fetch-registry: false
+    
+    service-url:
+     defaultZone: http://localhost:8761/eureka
+     
+  instance:
+    prefer-ip-address: true
+    
+      
+    
+
+    
+  
+  
+
+      
+
+    
+
+  
+
+    
+ 

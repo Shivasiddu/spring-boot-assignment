@@ -5,12 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 @Entity
-@Data
-@NoArgsConstructor
+
 public class Coupon {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,16 +15,17 @@ public class Coupon {
 	private Double discount;
 	private String expDate;
 
-	public Coupon() {
-		super();
-	}
-
 	public Coupon(int couponId, String couponCode, Double discount, String expDate) {
 		super();
 		this.couponId = couponId;
 		this.couponCode = couponCode;
 		this.discount = discount;
 		this.expDate = expDate;
+	}
+
+	public Coupon() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	public int getCouponId() {
