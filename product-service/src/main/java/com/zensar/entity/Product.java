@@ -6,12 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 @Entity
-@Data
-@NoArgsConstructor
+
 public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,12 +15,8 @@ public class Product {
 	private String productName;
 	private String discription;
 	private Double price;
-	// @Transient
+	@Transient
 	private String couponCode;
-
-	public Product() {
-		super();
-	}
 
 	public Product(int productId, String productName, String discription, Double price, String couponCode) {
 		super();
@@ -33,6 +25,11 @@ public class Product {
 		this.discription = discription;
 		this.price = price;
 		this.couponCode = couponCode;
+	}
+
+	public Product() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	public int getProductId() {

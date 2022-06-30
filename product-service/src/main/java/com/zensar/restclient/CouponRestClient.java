@@ -11,4 +11,5 @@ public interface CouponRestClient {
 
 	@GetMapping("/coupons/{couponCode}")
 	Coupon getCoupon(@PathVariable("couponCode") String couponCode);
+
 }

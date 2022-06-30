@@ -1,6 +1,5 @@
 package com.zensar.services;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import com.zensar.repository.ProductRepository;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-	private List<Product> products = new ArrayList<Product>();
 
 	@Autowired
 	private ProductRepository productRepository;
@@ -23,28 +21,19 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public List<Product> getAllProducts() {
-
-		return productRepository.findAll();
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public Product getProduct(int productId) {
-		for (Product product : products) {
-			if (product.getProductId() == productId) {
-				return product;
-			}
-		}
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void delteProduct(int productId) {
-		for (int i = 0; i < products.size(); i++) {
-			Product product = products.get(i);
-			if (product.getProductId() == productId) {
-				products.remove(product);
-			}
-		}
+		// TODO Auto-generated method stub
 
 	}
 
