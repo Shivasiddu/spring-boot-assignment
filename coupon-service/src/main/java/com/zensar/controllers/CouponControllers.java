@@ -33,7 +33,7 @@ public class CouponControllers {
 
 	}
 
-	// http://localhost:8084/coupons/MAX50 -> GET
+	// http://localhost:5051/coupons/MAX50 -> GET
 	@GetMapping("/{couponCode}")
 	public Coupon getCoupon(@PathVariable("couponCode") String couponCode) {
 		System.out.println(" Instance 2");
