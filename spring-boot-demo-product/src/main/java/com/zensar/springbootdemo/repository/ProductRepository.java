@@ -6,16 +6,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.zensar.springbootdemo.entity.*;
+import com.zensar.springbootdemo.entity.Product;
 
 public interface ProductRepository extends JpaRepository<Product, Integer> {
-	@Query("from Product c  where c.productCode=code or c.productId=idd")
-	List<Product> com3(@Param("code") String productCode, @Param("idd") int productId);
+	@Query(value = " select * from product where product_name=:name", nativeQuery = true)
 
-	List<Product> test(String productCode);
+	List<Product> test(@Param("name") String productName);
 
-	List<Product> test1(String productCode, int productId);
+	@Query(value = "from Product p where p.productName=:name and p.productPrice=:price", nativeQuery = true)
 
-	List<Product> test2(String productCode, int productId);
+	List<Product> test1(@Param("name") String productName, @Param("price") int price);
 
 }

@@ -4,7 +4,8 @@
 
 #spring.datasource.password=Temp1234
 #spring.jpa.hibernate.ddl-auto=create
-
+server:
+  port: 6060
 spring:
  datasource:
   url: jdbc:mysql://localhost:6060/javabatch

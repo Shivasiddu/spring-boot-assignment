@@ -26,55 +26,70 @@ import com.zensar.springbootdemo.service.ProductService;
 				MediaType.APPLICATION_XML_VALUE })
 public class ProductController {
 	@Autowired
-	private ProductService productService; // @RequestMapping("/products/{productId}")
+	private ProductService productService;
 
+	// http://localhost:9999/product/1001 GET
+	// @RequestMapping(value = "/products/{productId}",method=RequestMethod.GET)
 	@GetMapping(value = "/products/{productId}")
-	public ResponseEntity<ProductDto> getCoupon(@PathVariable("productId") int productId) {
+	public ResponseEntity<ProductDto> getProduct(@PathVariable("productId") int productId) {
 		return new ResponseEntity<ProductDto>(productService.getProduct(productId), HttpStatus.OK);
+
 	}
 
-//http://localhost:1111/product-api/products?pageNumber=0&pageSize=5&sortBy=productName&dir=DESC
-// @RequestMapping("/products")
+	// http://localhost:9999/products
+	// @RequestMapping(value = { "/products",
+	// "/listOfProducts"},method=RequestMethod.GET)
 	@GetMapping(value = { "/products", "/listOfProducts" })
 	public ResponseEntity<List<ProductDto>> getAllProducts(
 			@RequestParam(value = "pageNumber", required = false, defaultValue = "0") int pageNumber,
 			@RequestParam(value = "pageSize", required = false, defaultValue = "5") int pageSize,
-			@RequestParam(value = "sortBy", required = false, defaultValue = "productId") String sortBy,
-			@RequestParam(value = "dir", required = false, defaultValue = "ASC") Direction dir) {
+			@RequestParam(value = "sortBy", required = false, defaultValue = "productName") String sortBy,
+			@RequestParam(value = "dir", required = false, defaultValue = "DESC") Direction dir) {
+
 		return new ResponseEntity<List<ProductDto>>(productService.getAllProducts(pageNumber, pageSize, sortBy, dir),
 				HttpStatus.OK);
 	}
 
-// @RequestMapping(value="/products", method=RequestMethod.POST)
+	// http://localhost:9999/products POST
+	// @RequestMapping(value = "/products",method=RequestMethod.POST)
 	@PostMapping(value = "/products")
+
 	public ResponseEntity<ProductDto> insertProduct(@RequestBody ProductDto productDto) {
+
+		// restClient.getCoupon(productDto.get)
+
+		// return productService.insert(productDto);
 		return new ResponseEntity<ProductDto>(productService.insertProduct(productDto), HttpStatus.CREATED);
+
+		// System.out.println("HI");
 	}
 
-// @RequestMapping(value="/products/{productId}", method=RequestMethod.DELETE)
+	// @RequestMapping(value="/products/{productId}",method=RequestMethod.PUT)
+	@PutMapping(value = "/products/{productId}")
+	public ResponseEntity<String> update(@PathVariable("productId") int productId, @RequestBody ProductDto productDto) {
+		productService.updateProduct(productId, productDto);
+		return new ResponseEntity<String>("Product updated succesfully", HttpStatus.OK);
+
+	}
+
+	// http://localhost:9999/products/1001 -> Delete
+	// @RequestMapping(value="/products/{productId}",method=RequestMethod.DELETE)
 	@DeleteMapping("/products/{productId}")
 	public ResponseEntity<String> deleteProduct(@PathVariable("productId") int productId) {
 		productService.deleteProduct(productId);
-		return new ResponseEntity<String>("Product Deleted Successfully", HttpStatus.OK);
+		return new ResponseEntity<String>("Product deleted succesfully", HttpStatus.OK);
 	}
 
-// @RequestMapping(value="/products/{productId}", method=RequestMethod.PUT)
-	@PutMapping(value = "/products/{productId}")
-	public ResponseEntity<String> updateProduct(@PathVariable("productId") int productId,
-			@RequestBody ProductDto productDto) {
-		productService.updateProduct(productId, productDto);
-		return new ResponseEntity<String>("Product Updated Successfully", HttpStatus.OK);
-	}
-
-	@GetMapping("/products/productName/{productName}")
+	@GetMapping(value = "/products/name/{productName}")
 	public ResponseEntity<List<ProductDto>> getByProductName(@PathVariable("productName") String productName) {
 		return new ResponseEntity<List<ProductDto>>(productService.getByProductName(productName), HttpStatus.OK);
 	}
 
-	@GetMapping("/products/{productName}/{productPrice}")
-	public ResponseEntity<List<ProductDto>> getByProductNameAndProductPrice(@PathVariable String productName,
-			@PathVariable int productPrice) {
-		return new ResponseEntity<List<ProductDto>>(
-				productService.getByProductNameAndProductPrice(productName, productPrice), HttpStatus.OK);
+	@GetMapping(value = "/products/{productName}/{productPrice}")
+	public ResponseEntity<List<ProductDto>> findByProductNameAndProductPrice(
+			@PathVariable("productName") String productName, @PathVariable("productPrice") int price) {
+		return new ResponseEntity<List<ProductDto>>(productService.findByProductNameAndProductPrice(productName, price),
+				HttpStatus.OK);
 	}
+
 }

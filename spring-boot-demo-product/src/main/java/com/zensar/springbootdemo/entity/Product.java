@@ -1,40 +1,32 @@
 package com.zensar.springbootdemo.entity;
 
 import javax.persistence.Entity;
-
 import javax.persistence.Id;
 import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-
-import com.zensar.springbootdemo.entity.*;
-
-@NamedQueries(value = { @NamedQuery(name = "Product.test", query = "from Product c where c.productCode=?1"),
-		@NamedQuery(name = "Product.test1", query = "from Product c where c.productCode=?1 and c.productId=?2") })
-//@NamedQuery(name="Product.com" ,query="from Product c where c.productCode=?1")
-//@NamedQuery(name="Product.com1",query="from Product c where c.productCode=?1 and c.productId=?2")
-@NamedNativeQuery(name = "Product.test2", query = "select * from Product c where c.product_code=?1 and c.product_id=?2 ", resultClass = Product.class)
 
 @Entity
+
+//@NamedQueries(value= {
+//	          @NamedQuery(name="Product.test1",query="from Product p where p.productName=?1 and p.productPrice=?2")})
+//@NamedNativeQuery(name="Product.test",query= "select * from product where product_name=?1",resultClass=Product.class)
+
 public class Product {
 	@Id
-
 	private int productId;
-	private String productCode;
-	private String expDate;
 	private String productName;
+	private int productPrice;
+
+	public Product(int productId, String productName, int productPrice) {
+		super();
+		this.productId = productId;
+		this.productName = productName;
+		this.productPrice = productPrice;
+	}
 
 	public Product() {
 		super();
 		// TODO Auto-generated constructor stub
-	}
-
-	public Product(int productId, String productCode, String expDate, String productName) {
-		super();
-		this.productId = productId;
-		this.productCode = productCode;
-		this.expDate = expDate;
-		this.productName = productName;
 	}
 
 	public int getProductId() {
@@ -45,22 +37,6 @@ public class Product {
 		this.productId = productId;
 	}
 
-	public String getProductCode() {
-		return productCode;
-	}
-
-	public void setProductCode(String productCode) {
-		this.productCode = productCode;
-	}
-
-	public String getExpDate() {
-		return expDate;
-	}
-
-	public void setExpDate(String expDate) {
-		this.expDate = expDate;
-	}
-
 	public String getProductName() {
 		return productName;
 	}
@@ -69,10 +45,18 @@ public class Product {
 		this.productName = productName;
 	}
 
+	public int getProductPrice() {
+		return productPrice;
+	}
+
+	public void setProductPrice(int productPrice) {
+		this.productPrice = productPrice;
+	}
+
 	@Override
 	public String toString() {
-		return "Product [productId=" + productId + ", productCode=" + productCode + ", expDate=" + expDate
-				+ ", productName=" + productName + "]";
+		return "Product [productId=" + productId + ", productName=" + productName + ", productPrice=" + productPrice
+				+ "]";
 	}
 
 }

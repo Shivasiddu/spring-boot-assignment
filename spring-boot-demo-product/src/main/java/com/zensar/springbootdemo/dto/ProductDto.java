@@ -1,16 +1,23 @@
 package com.zensar.springbootdemo.dto;
 
 public class ProductDto {
-
 	private int productId;
-	private String productcode;
-	private String expDate;
+	private String productName;
+	private int productPrice;
+	private int productQuantity;
 
-	public ProductDto(int productId, String productcode, String expDate) {
+	public ProductDto() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public ProductDto(int productId, String productName, int productPrice, int productQuantity, String couponCode) {
 		super();
 		this.productId = productId;
-		this.productcode = productcode;
-		this.expDate = expDate;
+		this.productName = productName;
+		this.productPrice = productPrice;
+		this.productQuantity = productQuantity;
+
 	}
 
 	public int getProductId() {
@@ -22,24 +29,33 @@ public class ProductDto {
 	}
 
 	public String getProductName() {
-		return productcode;
+		return productName;
 	}
 
 	public void setProductName(String productName) {
-		this.productcode = productName;
+		this.productName = productName;
 	}
 
-	public String getExpDate() {
-		return expDate;
+	public int getProductPrice() {
+		return productPrice;
 	}
 
-	public void setExpDate(String expDate) {
-		this.expDate = expDate;
+	public void setProductPrice(int productPrice) {
+		this.productPrice = productPrice;
+	}
+
+	public int getProductQuantity() {
+		return productQuantity;
+	}
+
+	public void setProductQuantity(int productQuantity) {
+		this.productQuantity = productQuantity;
 	}
 
 	@Override
 	public String toString() {
-		return "ProductDto [productId=" + productId + ", productName=" + productcode + ", expDate=" + expDate + "]";
+		return "ProductDto [productId=" + productId + ", productName=" + productName + ", productPrice=" + productPrice
+				+ ", productQuantity=" + productQuantity + "]";
 	}
 
 }
