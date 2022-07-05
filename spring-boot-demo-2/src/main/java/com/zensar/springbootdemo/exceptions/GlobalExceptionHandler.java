@@ -14,12 +14,12 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(value = NoSuchStudentExistsException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public @ResponseBody ErrorResponse handleException(NoSuchStudentExistsException ex) {
-		return new ErrorResponse(ex.getMessage());
+		return new ErrorResponse(HttpStatus.NOT_FOUND.value(), ex.getMessage());
 	}
 
 	@ExceptionHandler(value = StudentAlreadyExistsException.class)
 	@ResponseStatus
 	public @ResponseBody ErrorResponse handleException(StudentAlreadyExistsException ex) {
-		return new ErrorResponse(ex.getMessage());
+		return new ErrorResponse(HttpStatus.CONFLICT.value(), ex.getMessage());
 	}
 }
