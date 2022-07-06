@@ -1,19 +1,35 @@
 package com.springboot.demo.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class User {
-	String username;
-	String password;
-	String email;
+	@Id
+	private int userId;
+	private String username;
+	private String password;
+	private String roles;
+
+	public User(int userId, String username, String password, String roles) {
+		super();
+		this.userId = userId;
+		this.username = username;
+		this.password = password;
+		this.roles = roles;
+	}
 
 	public User() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
 
-	public User(String username, String password, String email) {
-		super();
-		this.username = username;
-		this.password = password;
-		this.email = email;
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 	public String getUsername() {
@@ -32,12 +48,18 @@ public class User {
 		this.password = password;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getRoles() {
+		return roles;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setRoles(String roles) {
+		this.roles = roles;
+	}
+
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", roles=" + roles
+				+ "]";
 	}
 
 }
