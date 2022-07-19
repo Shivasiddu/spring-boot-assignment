@@ -1,4 +1,4 @@
-#spring.datasource.url=jdbc://localhost:6060/javabatch
+#spring.datasource.url=jdbc://localhost:3306/javabatch
 
 #spring.datasource.username=root 
 
@@ -8,7 +8,7 @@ server:
   port: 6060
 spring:
  datasource:
-  url: jdbc:mysql://localhost:6060/javabatch
+  url: jdbc:mysql://localhost:3306/javabatch
   username: root
   password: Temp1234
  jpa:
