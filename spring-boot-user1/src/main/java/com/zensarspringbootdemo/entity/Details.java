@@ -1,8 +1,6 @@
 package com.zensarspringbootdemo.entity;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -10,19 +8,21 @@ import javax.persistence.Table;
 @Table(name = "details")
 public class Details {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int userId;
 	private String userName;
-//	Address address;
+	private String useremailId;
+	private long userphonenumber;
 
 	public Details() {
 		super();
 	}
 
-	public Details(int userId, String userName) {
+	public Details(int userId, String userName, String useremailId, long userphonenumber) {
 		super();
 		this.userId = userId;
 		this.userName = userName;
+		this.useremailId = useremailId;
+		this.userphonenumber = userphonenumber;
 	}
 
 	public int getUserId() {
@@ -41,9 +41,20 @@ public class Details {
 		this.userName = userName;
 	}
 
-	public void addAttribute(String string, Details details) {
-		// TODO Auto-generated method stub
-		
+	public String getUseremailId() {
+		return useremailId;
 	}
 
+	public void setUseremailId(String useremailId) {
+		this.useremailId = useremailId;
+	}
+
+	public long getUserphonenumber() {
+		return userphonenumber;
+	}
+
+	public void setUserphonenumber(long userphonenumber) {
+		this.userphonenumber = userphonenumber;
+	}
+	
 }
